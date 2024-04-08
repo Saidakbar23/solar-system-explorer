@@ -1,8 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Landing from './components/landing';
 
 function App() {
   return (
-    <div>Hello</div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
