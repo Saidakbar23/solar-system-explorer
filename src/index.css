@@ -6,3 +6,8 @@
     font-family: 'Angora';
     src: local('Angora'), url(./components/assets/Angora-1G3BB.otf) format('opentype');
 }
+
+/* .body {
+    height: 100vh;
+    display: flex;
+} */

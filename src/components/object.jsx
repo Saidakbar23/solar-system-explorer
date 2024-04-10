@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import bg from './assets/images/stars.jpg';
 import planets from './assets/data';
+import './background.css';
 import { useParams } from 'react-router-dom';
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getFirestore } from 'firebase/firestore';
+import firebase from "firebase/compat/app";
+import 'firebase/compat/firestore';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -19,44 +20,55 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
+//const app = initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
 export default function Object() {
     const { planetName } = useParams();
     const planet = planets.find((planet) => planet.planet === planetName);
     const [info, setInfo] = useState([]);
 
-    window.addEventListener('load', () => {
-        fetchData();
-    });
-
-    const fetchData = async () => {
-        // db.collection('planets').get().then((querySnapshot) => {
-        //     querySnapshot.forEach((doc) => {
-        //         setInfo(doc.data());
-        //     });
-        // });
-        db.collection('planets').doc('92hThamH0FdVZA8OHewS').collection(planetName).doc('3cJbvPR2UUdIBDwhzRss').collection('information').get().then((querySnapshot) => {
-            if (querySnapshot.exists) {
-                console.log(querySnapshot.data());
-            } else {
-                console.log('No such document!');
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const collectionRef = firebase.firestore().collection('planets').doc('92hThamH0FdVZA8OHewS').collection(planetName).doc('3cJbvPR2UUdIBDwhzRss').collection('information');
+                const snapshot = await collectionRef.get();
+                const fetchedData = [];
+                snapshot.forEach((doc) => {
+                    fetchedData.push(doc.data());
+                });
+                setInfo(fetchedData);
+            } catch (error) {
+                console.log('Error fetching data: ', error);
             }
-            // querySnapshot.forEach((doc) => {
-            //     setInfo(doc.data());
-            // });
-        });
-    };
-    fetchData();
+        };
+
+        fetchData();
+    }, []);
+
+
     console.log(info);
 
     return (
-        <div className='bg-black h-screen w-screen flex items-center justify-center relative'>
-            <img src={bg} className='object-cover brightness-50' alt="" />
-            <div className='max-w-[1400px] w-full absolute bg-white flex'>
-                <img src={planet.image} alt="" className='w-1/2' />
-                <div className='w-1/2'>{planet.planet}</div>
+        <div className='h-full w-full flex justify-center overflow-hidden' style={
+            {
+                backgroundImage: `url(${bg})`,
+                backgroundSize: 'cover',
+                backgroundAttachment: 'fixed',
+                backgroundRepeat: 'no-repeat',
+                height: '100vh',
+            }
+        }>
+            <div className='max-w-[1400px] w-full h-full absolute flex gap-8 overflow-y-auto hide-scrollbar' style={{ height: '100vh' }}>
+                <img src={planet.image} alt="" className='w-1/2 object-contain h-full my-auto' />
+                <div className='w-1/2'>
+                    {info.map((data) => (
+                        <div className='text-white font-serif mb-4'>
+                            <p className='text-5xl'>{data['title']}</p>
+                            <p className='text-2xl'>{data['content']}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     )
