@@ -60,6 +60,9 @@ export default function Object() {
                 setInfo(fetchedData);
             } else {
                 fetchedData.map((data) => {
+                    if (images.some(image => image.src === data['image'])) {
+                        return;
+                    }
                     images.push({ src: data['image'] });
                 });
             }
@@ -87,9 +90,9 @@ export default function Object() {
             />
             <div className='max-w-[1400px] w-full h-full absolute overflow-y-auto hide-scrollbar pt-20' style={{ height: '100vh', zIndex: '1' }}>
                 <h2 className='text-white text-5xl font-["Angora"] text-center mb-14'>{planetName}</h2>
-                <div className='flex gap-8'>
-                    <img src={planet.image} alt="" className='w-1/2 object-contain h-full my-auto' />
-                    <div className='w-1/2'>
+                <div className='flex justify-between'>
+                    <img src={planet.image} alt="" className='w-1/2 object-contain h-full sticky top-0 z-10' />
+                    <div className='w-1/2 flex flex-col justify-end'>
                         {info.map((data) => (
                             <div className='text-white font-serif mb-4' key={data.title}>
                                 <p className='text-4xl font-bold'>{data.title}</p>
@@ -115,7 +118,7 @@ export default function Object() {
 
                 </div>
                 <div className=' h-screen'>
-                    <iframe src={`https://eyes.nasa.gov/apps/solar-system/#/${planetName}`} className=' w-full h-full py-20' frameborder="0"></iframe>
+                    <iframe src={`https://eyes.nasa.gov/apps/solar-system/#/${planetName}`} className=' w-full h-full py-20'></iframe>
                 </div>
             </div>
         </div>

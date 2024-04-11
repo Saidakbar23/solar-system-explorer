@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import bg from './assets/images/stars.jpg';
 import planets from './assets/data';
 import { ArrowBigLeft, ArrowBigRight, CircleDot, Circle } from 'lucide-react';
@@ -27,18 +27,32 @@ export default function Landing() {
         });
     }
 
+    useEffect(() => {
+        const planetName = localStorage.getItem('planetName');
+        console.log(planetName);
+        if (planetName) {
+            const planet = planets.find((planet) => planet.planet === planetName);
+            setPlanetIndex(planets.indexOf(planet));
+            localStorage.removeItem('planetName');
+        }
+    }, [localStorage]);
+
     return (
         <div className='bg-black h-screen flex items-center justify-center relative'>
             <img src={bg} className='object-cover brightness-50' />
             <div className='max-w-[1400px] w-full absolute'>
                 <div className='relative h-screen'>
                     <div className='h-full w-full flex overflow-hidden'>
-                        {planets.map(planet => (
-                            <div key={planet.id} className='w-full h-screen flex flex-col flex-shrink-0 justify-center items-center mt-48'>
+                        {planets.map((planet) => (
+                            <div key={planet.id} id={planet.id} className='w-full h-screen flex flex-col flex-shrink-0 justify-center items-center mt-48'>
                                 <div className='w-2/3 flex flex-col items-center gap-4 mt-32'>
                                     <h2 className='text-white text-5xl font-["Angora"]'>{planets[planetIndex].planet}</h2>
                                     <p className='text-white text-2xl text-center font-thin'>{planets[planetIndex].description}</p>
-                                    <Link to={`/object/${planets[planetIndex].planet}`}><button className='bg-white px-10 py-2 mt-10 text-xl rounded-3xl'>Learn More</button></Link>
+                                    <Link to={`/object/${planets[planetIndex].planet}`}>
+                                        <button onClick={
+                                            () => localStorage.setItem('planetName', planets[planetIndex].planet)
+                                        } className='bg-white px-10 py-2 mt-10 text-xl rounded-3xl'>Learn More</button>
+                                    </Link>
 
                                 </div>
                                 <img src={planet.image} className='object-fill w-full h-full block shrink-0 grow-0 transition-[translate] ease-in-out delay-400 translate-y-1/4' style={{ translate: `${-100 * planetIndex}%` }} alt="" />
