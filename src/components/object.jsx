@@ -3,13 +3,13 @@ import bg from './assets/images/stars.jpg';
 import planets from './assets/data';
 import './background.css';
 import { useParams } from 'react-router-dom';
-// Import the functions you need from the SDKs you need
 import firebase from "firebase/compat/app";
 import 'firebase/compat/firestore';
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import Lightbox from 'yet-another-react-lightbox';
+import "yet-another-react-lightbox/styles.css";
+import { Thumbnails, Zoom } from 'yet-another-react-lightbox/plugins';
+import 'yet-another-react-lightbox/plugins/thumbnails.css';
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyAQ4O801k6pCZXvDxbblyUdjcMcoj8ocfE",
     authDomain: "solarsystemexplorer.firebaseapp.com",
@@ -18,59 +18,58 @@ const firebaseConfig = {
     messagingSenderId: "67786755143",
     appId: "1:67786755143:web:398bb59ed11144fa5c3562"
 };
-
-// Initialize Firebase
-//const app = initializeApp(firebaseConfig);
 firebase.initializeApp(firebaseConfig);
 
 export default function Object() {
     const { planetName } = useParams();
     const planet = planets.find((planet) => planet.planet === planetName);
     const [info, setInfo] = useState([]);
+    const [images, setImages] = useState([]);
+    const [imageNumber, setImageNumber] = useState(-1);
+
+    const planetID = {
+        'sun': 'PVAQW8OpP39D7YKfdkhw',
+        'mercury': '3cJbvPR2UUdIBDwhzRss',
+        'venus': '78WQhiQHs6FbzM1DuaUp',
+        'earth': 'Z6IgELoMyhOffjBVl0In',
+        'mars': 'ehIltoQnVRHXwYKk5SY0',
+        'jupiter': 'B6EEUnwOONhLOnzGtEUA',
+        'saturn': 'wmW4kFFx44DT2RsODPyq',
+        'uranus': 'raG170pCp3DxKblmgUjy',
+        'neptune': 'ZpphM7H2o7JesX4CnfKg',
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const collectionRef = firebase.firestore().collection('planets').doc('92hThamH0FdVZA8OHewS').collection(planetName).doc('3cJbvPR2UUdIBDwhzRss').collection('information');
-                const snapshot = await collectionRef.get();
-                const fetchedData = [];
-                snapshot.forEach((doc) => {
-                    fetchedData.push(doc.data());
-                });
-                setInfo(fetchedData);
-            } catch (error) {
-                console.log('Error fetching data: ', error);
-            }
-        };
+        fetchData('information');
 
-        fetchData();
     }, []);
 
+    useEffect(() => {
+        fetchData('images');
+    }, []);
 
-    console.log(info);
+    const fetchData = async (lastCollection) => {
+        try {
+            const collectionRef = firebase.firestore().collection('planets').doc('92hThamH0FdVZA8OHewS').collection(planetName).doc(planetID[planetName]).collection(lastCollection);
+            const snapshot = await collectionRef.get();
+            const fetchedData = [];
+            snapshot.forEach((doc) => {
+                fetchedData.push(doc.data());
+            });
+            if (lastCollection === 'information') {
+                setInfo(fetchedData);
+            } else {
+                fetchedData.map((data) => {
+                    images.push({ src: data['image'] });
+                });
+            }
+
+        } catch (error) {
+            console.log('Error fetching data: ', error);
+        }
+    };
 
     return (
-        // <div className='h-full w-full flex justify-center overflow-hidden' style={
-        //     {
-        //         background: `url(${bg})`,
-        //         backgroundSize: 'cover',
-        //         backgroundAttachment: 'fixed',
-        //         backgroundRepeat: 'no-repeat',
-        //         height: '100vh',
-        //     }
-        // }>
-        //     <div className='max-w-[1400px] w-full h-full absolute flex gap-8 overflow-y-auto hide-scrollbar' style={{ height: '100vh' }}>
-        //         <img src={planet.image} alt="" className='w-1/2 object-contain h-full my-auto' />
-        //         <div className='w-1/2'>
-        //             {info.map((data) => (
-        //                 <div className='text-white font-serif mb-4'>
-        //                     <p className='text-5xl'>{data['title']}</p>
-        //                     <p className='text-2xl'>{data['content']}</p>
-        //                 </div>
-        //             ))}
-        //         </div>
-        //     </div>
-        // </div>
         <div className='h-full w-full flex justify-center overflow-hidden relative' style={{
             height: '100vh',
         }}>
@@ -98,6 +97,25 @@ export default function Object() {
                             </div>
                         ))}
                     </div>
+                </div>
+                <div>
+                    <h2 className='text-white text-5xl font-["Angora"] text-center my-20 '>Images</h2>
+
+                    <div className='grid grid-cols-auto gap-4'>
+                        {images.map((image, index) => {
+                            return (
+                                <div className='h-80 w-full cursor-pointer' key={index}>
+                                    <img className='h-full w-full object-cover rounded-xl' onClick={() => setImageNumber(index)} src={image['src']} />
+                                </div>
+                            )
+                        })}
+                    </div>
+
+                    <Lightbox plugins={[Zoom, Thumbnails]} index={imageNumber} slides={images} open={imageNumber >= 0} close={() => setImageNumber(-1)} />
+
+                </div>
+                <div className=' h-screen'>
+                    <iframe src={`https://eyes.nasa.gov/apps/solar-system/#/${planetName}`} className=' w-full h-full py-20' frameborder="0"></iframe>
                 </div>
             </div>
         </div>
