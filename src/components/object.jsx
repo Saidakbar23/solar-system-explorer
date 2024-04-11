@@ -50,26 +50,58 @@ export default function Object() {
     console.log(info);
 
     return (
-        <div className='h-full w-full flex justify-center overflow-hidden' style={
-            {
-                backgroundImage: `url(${bg})`,
-                backgroundSize: 'cover',
-                backgroundAttachment: 'fixed',
-                backgroundRepeat: 'no-repeat',
-                height: '100vh',
-            }
-        }>
-            <div className='max-w-[1400px] w-full h-full absolute flex gap-8 overflow-y-auto hide-scrollbar' style={{ height: '100vh' }}>
-                <img src={planet.image} alt="" className='w-1/2 object-contain h-full my-auto' />
-                <div className='w-1/2'>
-                    {info.map((data) => (
-                        <div className='text-white font-serif mb-4'>
-                            <p className='text-5xl'>{data['title']}</p>
-                            <p className='text-2xl'>{data['content']}</p>
-                        </div>
-                    ))}
+        // <div className='h-full w-full flex justify-center overflow-hidden' style={
+        //     {
+        //         background: `url(${bg})`,
+        //         backgroundSize: 'cover',
+        //         backgroundAttachment: 'fixed',
+        //         backgroundRepeat: 'no-repeat',
+        //         height: '100vh',
+        //     }
+        // }>
+        //     <div className='max-w-[1400px] w-full h-full absolute flex gap-8 overflow-y-auto hide-scrollbar' style={{ height: '100vh' }}>
+        //         <img src={planet.image} alt="" className='w-1/2 object-contain h-full my-auto' />
+        //         <div className='w-1/2'>
+        //             {info.map((data) => (
+        //                 <div className='text-white font-serif mb-4'>
+        //                     <p className='text-5xl'>{data['title']}</p>
+        //                     <p className='text-2xl'>{data['content']}</p>
+        //                 </div>
+        //             ))}
+        //         </div>
+        //     </div>
+        // </div>
+        <div className='h-full w-full flex justify-center overflow-hidden relative' style={{
+            height: '100vh',
+        }}>
+            <div
+                className='absolute inset-0 z-0'
+                style={{
+                    backgroundImage: `url(${bg})`,
+                    backgroundSize: 'cover',
+                    backgroundAttachment: 'fixed',
+                    backgroundRepeat: 'no-repeat',
+                    filter: 'brightness(0.6)',
+                    zIndex: '-1',
+                    opacity: '1',
+                }}
+            />
+            <div className='max-w-[1400px] w-full h-full absolute overflow-y-auto hide-scrollbar pt-20' style={{ height: '100vh', zIndex: '1' }}>
+                <h2 className='text-white text-5xl font-["Angora"] text-center mb-14'>{planetName}</h2>
+                <div className='flex gap-8'>
+                    <img src={planet.image} alt="" className='w-1/2 object-contain h-full my-auto' />
+                    <div className='w-1/2'>
+                        {info.map((data) => (
+                            <div className='text-white font-serif mb-4' key={data.title}>
+                                <p className='text-4xl font-bold'>{data.title}</p>
+                                <p className='text-2xl'>{data.content}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
-    )
+    );
+
+
 }
