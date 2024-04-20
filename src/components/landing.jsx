@@ -38,9 +38,23 @@ export default function Landing() {
     }, [localStorage]);
 
     return (
-        <div className='bg-black h-screen flex items-center justify-center relative'>
-            <img src={bg} className='object-cover brightness-50' />
-            <div className='max-w-[1400px] w-full absolute'>
+        <div className='h-full w-full flex items-center justify-center overflow-hidden relative' style={{
+            height: '100vh',
+        }}>
+            {/* <img src={bg} className='object-cover brightness-50' /> */}
+            <div
+                className='absolute inset-0 z-0'
+                style={{
+                    backgroundImage: `url(${bg})`,
+                    backgroundSize: 'cover',
+                    backgroundAttachment: 'fixed',
+                    backgroundRepeat: 'no-repeat',
+                    filter: 'brightness(0.6)',
+                    zIndex: '-1',
+                    opacity: '1',
+                }}
+            />
+            <div className='max-w-[1400px] w-full h-full absolute ' style={{ height: '100vh', zIndex: '1' }}>
                 <div className='relative h-screen'>
                     <div className='h-full w-full flex overflow-hidden'>
                         {planets.map((planet) => (
