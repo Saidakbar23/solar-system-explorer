@@ -8,7 +8,7 @@ export const Apod = () => {
     const [explanation, setExplanation] = useState('');
 
     useEffect(() => {
-        fetch(`https://api.nasa.gov/planetary/apod?api_key=FuERs9g0AjIuPg8RqLwXuDhThfQUBe9pDffkkCru`)
+        fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.REACT_APP_NASA_API_KEY}`)
             .then(res => res.json())
             .then(data => {
                 setTitle(data.title);

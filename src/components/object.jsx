@@ -11,13 +11,14 @@ import { Thumbnails, Zoom } from 'yet-another-react-lightbox/plugins';
 import 'yet-another-react-lightbox/plugins/thumbnails.css';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAQ4O801k6pCZXvDxbblyUdjcMcoj8ocfE",
-    authDomain: "solarsystemexplorer.firebaseapp.com",
-    projectId: "solarsystemexplorer",
-    storageBucket: "solarsystemexplorer.appspot.com",
-    messagingSenderId: "67786755143",
-    appId: "1:67786755143:web:398bb59ed11144fa5c3562"
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
+
 firebase.initializeApp(firebaseConfig);
 
 export default function Object() {
@@ -28,15 +29,15 @@ export default function Object() {
     const [imageNumber, setImageNumber] = useState(-1);
 
     const planetID = {
-        'sun': 'PVAQW8OpP39D7YKfdkhw',
-        'mercury': '3cJbvPR2UUdIBDwhzRss',
-        'venus': '78WQhiQHs6FbzM1DuaUp',
-        'earth': 'Z6IgELoMyhOffjBVl0In',
-        'mars': 'ehIltoQnVRHXwYKk5SY0',
-        'jupiter': 'B6EEUnwOONhLOnzGtEUA',
-        'saturn': 'wmW4kFFx44DT2RsODPyq',
-        'uranus': 'raG170pCp3DxKblmgUjy',
-        'neptune': 'ZpphM7H2o7JesX4CnfKg',
+        'sun': process.env.REACT_APP_SUN,
+        'mercury': process.env.REACT_APP_MERCURY,
+        'venus': process.env.REACT_APP_VENUS,
+        'earth': process.env.REACT_APP_EARTH,
+        'mars': process.env.REACT_APP_MARS,
+        'jupiter': process.env.REACT_APP_JUPITER,
+        'saturn': process.env.REACT_APP_SATURN,
+        'uranus': process.env.REACT_APP_URANUS,
+        'neptune': process.env.REACT_APP_NEPTUNE,
     };
 
     useEffect(() => {
