@@ -88,7 +88,7 @@ export default function Object() {
                     opacity: '1',
                 }}
             />
-            <div className='max-w-[1400px] w-full h-full absolute overflow-y-auto hide-scrollbar pt-20' style={{ height: '100vh', zIndex: '1' }}>
+            <div className='px-10 sm:px-24 md:px-36 w-full h-full absolute overflow-y-auto hide-scrollbar pt-20' style={{ height: '100vh', zIndex: '1' }}>
                 <h2 className='text-white text-5xl font-["Angora"] text-center mb-14'>{planetName}</h2>
                 <div className='flex justify-between flex-col md:flex-row items-center md:items-start'>
                     <img src={planet.image} alt="" className='w-1/2 object-contain h-full md:sticky top-0 z-10' />
@@ -119,6 +119,10 @@ export default function Object() {
                 </div>
                 <div className=' h-screen'>
                     <iframe src={`https://eyes.nasa.gov/apps/solar-system/#/${planetName}`} className=' w-full h-full py-20'></iframe>
+                </div>
+
+                <div className='flex justify-center py-10'>
+                    <p className='text-gray-600 text-md font-serif'>All images and data are provided by NASA</p>
                 </div>
 
             </div>
