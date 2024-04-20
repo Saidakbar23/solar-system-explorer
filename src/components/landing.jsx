@@ -41,7 +41,6 @@ export default function Landing() {
         <div className='h-full w-full flex items-center justify-center overflow-hidden relative' style={{
             height: '100vh',
         }}>
-            {/* <img src={bg} className='object-cover brightness-50' /> */}
             <div
                 className='absolute inset-0 z-0'
                 style={{
@@ -57,11 +56,14 @@ export default function Landing() {
             <div className='max-w-[1400px] w-full h-full absolute ' style={{ height: '100vh', zIndex: '1' }}>
                 <div className='relative h-screen'>
                     <div className='h-full w-full flex overflow-hidden'>
+                        <Link to='/apod'>
+                            <button className='absolute top-5 right-5 text-white px-5 py-2 text-xl rounded-3xl'>Picture of The Day</button>
+                        </Link>
                         {planets.map((planet) => (
                             <div key={planet.id} id={planet.id} className='w-full h-screen flex flex-col flex-shrink-0 justify-center items-center mt-48'>
                                 <div className='w-2/3 flex flex-col items-center gap-4 mt-32'>
                                     <h2 className='text-white text-5xl font-["Angora"]'>{planets[planetIndex].planet}</h2>
-                                    <p className='text-white text-2xl text-center font-thin'>{planets[planetIndex].description}</p>
+                                    <p className='text-white lg:text-2xl md:text-xl text-center font-thin'>{planets[planetIndex].description}</p>
                                     <Link to={`/object/${planets[planetIndex].planet}`}>
                                         <button onClick={
                                             () => localStorage.setItem('planetName', planets[planetIndex].planet)
@@ -69,7 +71,7 @@ export default function Landing() {
                                     </Link>
 
                                 </div>
-                                <img src={planet.image} className='object-fill w-full h-full block shrink-0 grow-0 transition-[translate] ease-in-out delay-400 translate-y-1/4' style={{ translate: `${-100 * planetIndex}%` }} alt="" />
+                                <img src={planet.image} className='object-cover md:object-fill w-full h-full block shrink-0 grow-0 transition-[translate] ease-in-out delay-400 translate-y-1/4' style={{ translate: `${-100 * planetIndex}%` }} alt="" />
                             </div>
                         ))}
                     </div>

@@ -90,13 +90,13 @@ export default function Object() {
             />
             <div className='max-w-[1400px] w-full h-full absolute overflow-y-auto hide-scrollbar pt-20' style={{ height: '100vh', zIndex: '1' }}>
                 <h2 className='text-white text-5xl font-["Angora"] text-center mb-14'>{planetName}</h2>
-                <div className='flex justify-between'>
-                    <img src={planet.image} alt="" className='w-1/2 object-contain h-full sticky top-0 z-10' />
-                    <div className='w-1/2 flex flex-col justify-end'>
+                <div className='flex justify-between flex-col md:flex-row items-center md:items-start'>
+                    <img src={planet.image} alt="" className='w-1/2 object-contain h-full md:sticky top-0 z-10' />
+                    <div className='w-3/4 md:w-1/2 flex flex-col justify-end'>
                         {info.map((data) => (
                             <div className='text-white font-serif mb-4' key={data.title}>
-                                <p className='text-4xl font-bold'>{data.title}</p>
-                                <p className='text-2xl'>{data.content}</p>
+                                <p className='text-3xl lg:text-4xl md:text-2xl font-bold'>{data.title}</p>
+                                <p className='text-xl lg:text-2xl md:text-xl'>{data.content}</p>
                             </div>
                         ))}
                     </div>
@@ -120,6 +120,7 @@ export default function Object() {
                 <div className=' h-screen'>
                     <iframe src={`https://eyes.nasa.gov/apps/solar-system/#/${planetName}`} className=' w-full h-full py-20'></iframe>
                 </div>
+
             </div>
         </div>
     );

@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Landing from './components/landing';
 import Object from './components/object';
+import { Apod } from './components/apod';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <Route path="/object" element={<Object />} >
           <Route path=':planetName' element={<Object />} />
         </Route>
+        <Route path='/apod' element={<Apod />} />
       </Routes>
     </BrowserRouter>
   );
